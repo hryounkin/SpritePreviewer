@@ -25,11 +25,14 @@ class SpritePreview(QMainWindow):
         super().__init__()
         self.setWindowTitle("Sprite Animation Preview")
         # This loads the provided sprite and would need to be changed for your own.
-        self.num_frames = 21
+        self.num_frames = 10
         self.frames = load_sprite('spriteImages',self.num_frames)
 
         # Add any other instance variables needed to track information as the program
         # runs here
+        self.timer = QTimer(self)
+        self.current_frame = 0
+
 
         # Make the GUI in the setupUI method
         self.setupUI()
@@ -39,15 +42,55 @@ class SpritePreview(QMainWindow):
         # An application needs a central widget - often a QFrame
         frame = QFrame()
 
-        # Add a lot of code here to make layouts, more QFrame or QWidgets, and
-        # the other components of the program.
-        # Create needed connections between the UI components and slot methods
-        # you define in this class.
+        self.piclabel = QLabel()
+        self.fps_label = QLabel()
+        self.slider = QSlider()
+        self.slider.setRange(1, 60)
+        self.slider.valueChanged.connect(self.update_fps)
+        self.startbutton = QPushButton("Start")
+        self.startbutton.clicked.connect(self.startAnimation)
+        self.exitbutton = QPushButton("Exit")
+        self.exitbutton.clicked.connect(self.close)
 
+
+        h_layout = QHBoxLayout()
+        h_layout.addWidget(self.piclabel)
+        h_layout.addWidget(self.slider)
+
+        v_layout = QVBoxLayout()
+        v_layout.addLayout(h_layout)
+        v_layout.addWidget(self.fps_label)
+        v_layout.addWidget(self.startbutton)
+        v_layout.addWidget(self.exitbutton)
+
+        frame.setLayout(v_layout)
+
+        self.piclabel.setPixmap(self.frames[self.current_frame])
         self.setCentralWidget(frame)
 
 
     # You will need methods in the class to act as slots to connect to signals
+    def startAnimation(self):
+        if self.timer.isActive():
+            self.timer.stop()
+            self.startbutton.setText("Start")
+        else:
+            self.timer.timeout.connect(self.update_frame)
+            self.startbutton.setText("Stop")
+            self.timer.start(1000//self.slider.value())
+
+    def update_frame(self):
+        self.current_frame += 1
+        if self.current_frame >= len(self.frames):
+            self.current_frame = 0
+        self.piclabel.setPixmap(self.frames[self.current_frame])
+
+
+    def update_fps(self, current_fps):
+        self.fps_label.setText("Frames per second: "+str(current_fps))
+        if self.timer.isActive():
+            self.timer.setInterval(1000//self.slider.value())
+
 
 
 def main():
