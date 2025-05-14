@@ -5,7 +5,7 @@
 #Small notes -
 # I don't have time to record a video of this working.
 # I know I need to use different sprites, I spent over an hour trying to make that work.
-# This weekend is the first time I am able to see my parents this year.
+# This weekend is the first time I am able to see my parents this year. I'm not too worried about my grade on this. It works.
 
 import math
 
