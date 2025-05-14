@@ -1,3 +1,7 @@
+#Henry Younkin
+#u1511014
+#A7: Sprite Previewer
+
 import math
 
 from PyQt6.QtGui import *
