@@ -2,6 +2,11 @@
 #u1511014
 #A7: Sprite Previewer
 
+#Small notes -
+# I don't have time to record a video of this working.
+# I know I need to use different sprites, I spent over an hour trying to make that work.
+# This weekend is the first time I am able to see my parents this year.
+
 import math
 
 from PyQt6.QtGui import *
